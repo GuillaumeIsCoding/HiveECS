@@ -1,0 +1,6 @@
+[submodule "HiveECS/dep/entt"]
+	path = HiveECS/dep/entt
+	url = https://github.com/skypjack/entt.git
+[submodule "Test/dep/googletest"]
+	path = Test/dep/googletest
+	url = https://github.com/google/googletest.git
