@@ -17,6 +17,7 @@ namespace hive::ecs {
 
         void registerSystem(System* system, const std::string& name);
         void removeSystem(const std::string& name);
+        System* getSystem(const std::string& name);
 
     private:
         std::map<std::string, System*> m_systems;

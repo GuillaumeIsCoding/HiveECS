@@ -30,4 +30,9 @@ void hive::ecs::SystemManager::removeSystem(const std::string &name) {
     m_systems.erase(name);
 }
 
+hive::ecs::System *hive::ecs::SystemManager::getSystem(const std::string &name) {
+    return m_systems.at(name);
+}
+
+
 

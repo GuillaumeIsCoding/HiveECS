@@ -33,6 +33,14 @@ void hive::ecs::ECS::updateSystem(float deltaTime) {
     }
 }
 
+hive::ecs::System *hive::ecs::ECS::getSystem(const std::string &name) {
+    if(m_systemManager != nullptr) {
+        return m_systemManager->getSystem(name);
+    }
+    return nullptr;
+}
+
+
 hive::ecs::Registry *hive::ecs::ECS::getCurrentRegistry() {
     return m_registry;
 }
