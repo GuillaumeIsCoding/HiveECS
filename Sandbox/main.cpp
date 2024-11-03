@@ -78,7 +78,7 @@ void create_entity(const WEAPON_TYPE& type) {
     }
 }
 
-class LSystem : public System {
+class LogicSystem : public System {
 public:
     void update(float deltaTime) override {
         if (!m_entities.empty()) m_entities.clear();
@@ -92,7 +92,7 @@ public:
         }
 
         if (m_entities.size() == 1) {
-            is_active = false;
+            m_is_active = false;
             return ;
         }
 
@@ -156,7 +156,7 @@ void setupEcs() {
     // Entity 2
     create_entity(WEAPON_TYPE::AXE);
 
-    ECS::registerSystem(new LSystem(), "LogicSystem");
+    ECS::registerSystem(new LogicSystem(), "LogicSystem");
 }
 
 void shutdown() {
@@ -167,7 +167,7 @@ void update(float deltaTime) {
     bool is_finished = false;
     while (!is_finished) {
         ECS::updateSystem(deltaTime);
-        if (ECS::getSystem("LogicSystem")->is_active == false) {
+        if (ECS::getSystem("LogicSystem")->m_is_active == false) {
             is_finished = true;
         }
     }

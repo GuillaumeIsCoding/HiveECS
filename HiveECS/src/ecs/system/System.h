@@ -11,7 +11,7 @@ namespace hive::ecs {
         virtual void init() = 0;
         virtual void update(float deltaTime) = 0;
 
-        bool is_active = true;
+        bool m_is_active = true;
 
     private:
         friend class SystemManager;
