@@ -2,7 +2,6 @@
 // Created by guill on 2024-11-03.
 //
 #include <gtest/gtest.h>
-
 #include "ecs/HiveECS.h"
 
 class ECSTest : public ::testing::Test

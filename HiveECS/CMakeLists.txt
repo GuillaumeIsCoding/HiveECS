@@ -1,6 +1,6 @@
 set(CMAKE_CXX_STANDARD 20)
 
-#Dependencies
+# Dependencies
 add_subdirectory(dep/entt)
 
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
@@ -11,5 +11,5 @@ target_include_directories(HiveECS PRIVATE src)
 
 target_include_directories(HiveECS PRIVATE dep/entt/src)
 
-#Precompiled header file
+# Precompiled header file
 target_precompile_headers(HiveECS PRIVATE src/hvpch.h)
