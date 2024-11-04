@@ -2,10 +2,7 @@
 // Created by guill on 2024-10-25.
 //
 #include <iostream>
-#include "ecs/Ecs.h"
-#include "ecs/Query_Builder.h"
-#include "ecs/system/System.h"
-#include "ecs/component/IComponent.h"
+#include <ecs/HiveECS.h>
 
 using namespace hive::ecs;
 
@@ -14,10 +11,10 @@ constexpr int AXE_DAMAGE = 15;
 constexpr int SWORD_DAMAGE = 30;
 constexpr int MINIMUM_HEALTH = 0;
 
-enum class WEAPON_TYPE : uint8_t{
-    DAG,
-    AXE,
-    SWORD
+enum class WEAPON_TYPE : int {
+    DAG     = DAG_DAMAGE,
+    AXE     = AXE_DAMAGE ,
+    SWORD   = SWORD_DAMAGE
 };
 
 struct Health final : IComponent {
@@ -31,12 +28,13 @@ struct Health final : IComponent {
     }
 };
 
-struct Weapon : IComponent {
+struct Weapon final : IComponent {
+    WEAPON_TYPE type;
     int damage;
 
     ~Weapon() override = default;
 
-    explicit Weapon(const int& damage) : damage(damage) {}
+    explicit Weapon(const WEAPON_TYPE& type) : damage(static_cast<int>(type)), type(type) {}
 
     [[nodiscard]]
     std::string toString() const override {
@@ -44,38 +42,10 @@ struct Weapon : IComponent {
     }
 };
 
-struct Dag final : Weapon {
-    ~Dag() override = default;
-
-    Dag() : Weapon(DAG_DAMAGE) {}
-};
-
-struct Axe final : Weapon {
-    ~Axe() override = default;
-
-    Axe() : Weapon(AXE_DAMAGE) {}
-};
-
-struct Sword final : Weapon {
-    ~Sword() override = default;
-
-    Sword() : Weapon(SWORD_DAMAGE) {}
-};
-
 void create_entity(const WEAPON_TYPE& type) {
     auto entity = ECS::createEntity();
     ECS::addComponent<Health>(entity);
-    switch (type) {
-        case WEAPON_TYPE::DAG:
-            ECS::addComponent<Dag>(entity);
-            break;
-        case WEAPON_TYPE::AXE:
-            ECS::addComponent<Axe>(entity);
-            break;
-        case WEAPON_TYPE::SWORD:
-            ECS::addComponent<Sword>(entity);
-            break;
-    }
+    ECS::addComponent<Weapon>(entity, type);
 }
 
 class LogicSystem : public System {
@@ -85,7 +55,7 @@ public:
 
         auto query_health = QueryBuilder<Health>();
 
-        for (auto [entity, health] : query_health.each()) {
+        for (auto [entity, health] : query_health.viewEach()) {
             if (health.hp > 0) {
                 m_entities.push_back(entity);
             }
@@ -96,49 +66,30 @@ public:
             return ;
         }
 
-        auto query_dag = QueryBuilder<Dag>();
+        auto query_weapon = QueryBuilder<Weapon>();
 
-        for (auto [entity, dag] : query_dag.each()) {
-            if (m_entities[0] == entity)  idx = 1;
+        for (auto [entity, weapon] : query_weapon.groupEach()) {
+            if (m_entities[0] == entity) idx = 1;
             else idx = 0;
 
             auto& health = ECS::getComponent<Health>(m_entities[idx]);
-            health.hp -= dag.damage;
+            health.hp -= weapon.damage;
 
             if (health.hp < MINIMUM_HEALTH) health.hp = MINIMUM_HEALTH;
 
-            std::cout << "Hit by a dag! Entity " << std::to_string(idx) << " has " << health.toString() << std::endl;
+            switch (weapon.type) {
+                case WEAPON_TYPE::AXE:
+                    std::cout << "Hit by an axe! ";
+                    break;
+                case WEAPON_TYPE::DAG:
+                    std::cout << "Hit by a dag! ";
+                    break;
+                case WEAPON_TYPE::SWORD:
+                    std::cout << "Hit by a sword! ";
+            }
+
+            std::cout << "Entity " << std::to_string(idx) << " has " << health.toString() << std::endl;
         }
-
-        auto query_axe = QueryBuilder<Axe>();
-
-        for (auto [entity, axe] : query_axe.each()) {
-            if (m_entities[0] == entity)  idx = 1;
-            else idx = 0;
-
-            auto& health = ECS::getComponent<Health>(m_entities[idx]);
-            health.hp -= axe.damage;
-
-            if (health.hp < MINIMUM_HEALTH) health.hp = MINIMUM_HEALTH;
-
-            std::cout << "Hit by an axe! Entity " << std::to_string(idx) << " has " << health.toString() << std::endl;
-        }
-
-        auto query_sword = QueryBuilder<Sword>();
-
-        for (auto [entity, sword] : query_sword.each()) {
-            if (m_entities[0] == entity)  idx = 1;
-            else idx = 0;
-
-            auto& health = ECS::getComponent<Health>(m_entities[idx]);
-            health.hp -= sword.damage;
-
-            if (health.hp < MINIMUM_HEALTH) health.hp = MINIMUM_HEALTH;
-
-            std::cout << "Hit by a sword! Entity " << std::to_string(idx) << " has " << health.toString() << std::endl;
-        }
-
-
     }
 
     void init() override {}
