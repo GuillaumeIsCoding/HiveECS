@@ -27,7 +27,7 @@ void hive::ecs::ECS::removeSystem(const std::string &name) {
     m_systemManager->removeSystem(name);
 }
 
-void hive::ecs::ECS::updateSystem(float deltaTime) {
+void hive::ecs::ECS::updateSystems(float deltaTime) {
     if(m_systemManager != nullptr) {
         m_systemManager->updateSystems(deltaTime);
     }

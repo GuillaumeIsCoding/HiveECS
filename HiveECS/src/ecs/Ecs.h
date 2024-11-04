@@ -22,7 +22,7 @@ namespace hive::ecs {
         static void registerSystem(System* system, const std::string& name);
         static void removeSystem(const std::string& name);
         static System* getSystem(const std::string& name);
-        static void updateSystem(float deltaTime);
+        static void updateSystems(float deltaTime);
 
         // Entity
         template<typename Component, typename... Args>

@@ -117,7 +117,7 @@ void shutdown() {
 void update(float deltaTime) {
     bool is_finished = false;
     while (!is_finished) {
-        ECS::updateSystem(deltaTime);
+        ECS::updateSystems(deltaTime);
         if (ECS::getSystem("LogicSystem")->m_is_active == false) {
             is_finished = true;
         }
