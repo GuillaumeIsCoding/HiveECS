@@ -25,7 +25,7 @@ jobs:
         run: git submodule update --init
 
       - name: Configure Wayland+X11 static library
-        run: cmake -B build-full-static -D GLFW_BUILD_WAYLAND=ON -D GLFW_BUILD_X11=ON
+        run: cmake -B build-full-static -D GLFW_BUILD_WAYLAND=ON
 
       - name: Build Wayland+X11 static library
         run: cmake --build build-full-static --parallel
