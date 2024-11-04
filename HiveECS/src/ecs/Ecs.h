@@ -21,7 +21,8 @@ namespace hive::ecs {
         // System
         static void registerSystem(System* system, const std::string& name);
         static void removeSystem(const std::string& name);
-        static void updateSystem(float deltaTime);
+        static System* getSystem(const std::string& name);
+        static void updateSystems(float deltaTime);
 
         // Entity
         template<typename Component, typename... Args>
@@ -38,7 +39,7 @@ namespace hive::ecs {
 
         template <typename Component>
         static Component& getComponent(const Entity entity) {
-            assert(hasComponent<Component>());
+            assert(hasComponent<Component>(entity));
             return getCurrentRegistry()->getComponent<Component>(entity);
         }
 

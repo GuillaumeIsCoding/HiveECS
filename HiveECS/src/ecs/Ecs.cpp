@@ -27,11 +27,19 @@ void hive::ecs::ECS::removeSystem(const std::string &name) {
     m_systemManager->removeSystem(name);
 }
 
-void hive::ecs::ECS::updateSystem(float deltaTime) {
+void hive::ecs::ECS::updateSystems(float deltaTime) {
     if(m_systemManager != nullptr) {
         m_systemManager->updateSystems(deltaTime);
     }
 }
+
+hive::ecs::System *hive::ecs::ECS::getSystem(const std::string &name) {
+    if(m_systemManager != nullptr) {
+        return m_systemManager->getSystem(name);
+    }
+    return nullptr;
+}
+
 
 hive::ecs::Registry *hive::ecs::ECS::getCurrentRegistry() {
     return m_registry;

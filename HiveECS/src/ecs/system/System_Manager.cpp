@@ -15,7 +15,7 @@ void hive::ecs::SystemManager::updateSystems(float deltaTime) {
         const std::string name = system_pair.first;
         auto system = system_pair.second;
 
-        if(system->is_active) {
+        if(system->m_is_active) {
             system->update(deltaTime);
         }
     }
@@ -29,5 +29,10 @@ void hive::ecs::SystemManager::registerSystem(System *system, const std::string 
 void hive::ecs::SystemManager::removeSystem(const std::string &name) {
     m_systems.erase(name);
 }
+
+hive::ecs::System *hive::ecs::SystemManager::getSystem(const std::string &name) {
+    return m_systems.at(name);
+}
+
 
 
