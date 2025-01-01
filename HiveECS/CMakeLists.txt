@@ -7,9 +7,9 @@ file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
 
 add_library(HiveECS ${SOURCES})
 target_link_libraries(HiveECS EnTT)
-target_include_directories(HiveECS PRIVATE src)
+target_include_directories(HiveECS PUBLIC src)
 
-target_include_directories(HiveECS PRIVATE dep/entt/src)
+target_include_directories(HiveECS PUBLIC dep/entt/src)
 
 # Precompiled header file
-target_precompile_headers(HiveECS PRIVATE src/hvpch.h)
+target_precompile_headers(HiveECS PUBLIC src/hvpch.h)
