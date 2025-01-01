@@ -3,9 +3,9 @@ add_subdirectory(dep/googletest EXCLUDE_FROM_ALL)
 enable_testing()
 # Specify the test executable
 file(GLOB_RECURSE TEST_SOURCES HiveECS/*.cpp)
-add_executable(maintest MainTest.cpp ${TEST_SOURCES})
-target_include_directories(maintest PUBLIC ${CMAKE_SOURCE_DIR}/HiveECS/src)
-target_link_libraries(maintest gtest gtest_main HiveECS gmock gmock_main)
+add_executable(ECSmaintest MainTest.cpp ${TEST_SOURCES})
+target_include_directories(ECSmaintest PRIVATE ${CMAKE_SOURCE_DIR}/HiveECS/src)
+target_link_libraries(ECSmaintest gtest gtest_main HiveECS gmock gmock_main)
 add_test(NAME maintest COMMAND maintest)
 
 
