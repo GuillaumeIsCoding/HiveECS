@@ -12,7 +12,7 @@ target_link_libraries(ECSmaintest PRIVATE
         gmock_main
         HiveECS
 )
-add_test(NAME maintest COMMAND maintest)
+add_test(NAME maintest COMMAND ECSmaintest)
 
 
 add_custom_target(clean_coverage
