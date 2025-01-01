@@ -5,7 +5,13 @@ enable_testing()
 file(GLOB_RECURSE TEST_SOURCES HiveECS/*.cpp)
 add_executable(ECSmaintest MainTest.cpp ${TEST_SOURCES})
 target_include_directories(ECSmaintest PRIVATE ${CMAKE_SOURCE_DIR}/HiveECS/src)
-target_link_libraries(ECSmaintest gtest gtest_main HiveECS gmock gmock_main)
+target_link_libraries(ECSmaintest PRIVATE
+        gtest
+        gtest_main
+        gmock
+        gmock_main
+        HiveECS
+)
 add_test(NAME maintest COMMAND maintest)
 
 
